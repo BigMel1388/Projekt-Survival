@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://et7aqtlbafnd"]
 
 [ext_resource type="Script" uid="uid://doyjeoh45jbgo" path="res://scene/CharacterBody3d.cs" id="1_17rk7"]
+[ext_resource type="Shader" uid="uid://bgxd4loqqek2y" path="res://Assets/outline.gdshader" id="2_k15yk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_w146n"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -14,6 +15,8 @@ background_mode = 2
 sky = SubResource("Sky_17rk7")
 tonemap_mode = 2
 glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_17rk7"]
 lightmap_size_hint = Vector2i(17, 14)
@@ -21,13 +24,19 @@ add_uv2 = true
 
 [sub_resource type="Skin" id="Skin_w146n"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k15yk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k15yk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w146n"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_k15yk"]
 
 [sub_resource type="Compositor" id="Compositor_iyo3e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iyo3e"]
+render_priority = 0
+shader = ExtResource("2_k15yk")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/outline_width = 1.0
 
 [node name="Node3D" type="Node3D" unique_id=236187744]
 
@@ -51,9 +60,10 @@ Camera = NodePath("Head/Camera3D")
 characterBody3d = NodePath(".")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1067550884]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9041258, 0)
 mesh = SubResource("CapsuleMesh_17rk7")
 skin = SubResource("Skin_w146n")
-surface_material_override/0 = SubResource("StandardMaterial3D_k15yk")
+surface_material_override/0 = SubResource("ShaderMaterial_k15yk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1690711260]
 shape = SubResource("CapsuleShape3D_w146n")
@@ -67,6 +77,14 @@ attributes = SubResource("CameraAttributesPractical_k15yk")
 compositor = SubResource("Compositor_iyo3e")
 fov = 77.0
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=715116270]
-transform = Transform3D(0.39099133, 0, 0, 0, 20.683989, 0, 0, 0, 27.58536, -10.091259, 8.206121, -0.9515617)
-use_collision = true
+[node name="CSGBox3D3" type="CSGBox3D" parent="." unique_id=1513033721]
+transform = Transform3D(1, 0, 0, 0, 5.1652484, 0, 0, 0, 5.29261, -10.252705, 2.9734957, 0)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=104618104]
+transform = Transform3D(1, 0, 0, 0, 6.212571, 0, 0, 0, 22.473179, 0, 3.888924, 0)
+flip_faces = true
+size = Vector3(1, 2.2519531, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D2" unique_id=397389676]
+transform = Transform3D(0.99266434, 0, 0, 0, 2.281125, 0, 0, 0, 1.0086313, 0, 0, 0)
+material = SubResource("ShaderMaterial_iyo3e")
