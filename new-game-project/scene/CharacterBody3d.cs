@@ -1,9 +1,10 @@
 using Godot;
 using System;
+using System.ComponentModel;
 
 public partial class CharacterBody3d : CharacterBody3D
 {
-	public const float Speed = 5.0f;
+	public float Speed = 5.0f;
 	public const float JumpVelocity = 4.5f;
 
 	[Export]
@@ -11,13 +12,13 @@ public partial class CharacterBody3d : CharacterBody3D
 
 	[Export]
 	public Camera3D Camera;
+
+	public CharacterBody3d characterBody3d;
+
+	public Vector3 constSize = new Vector3(1, 1.4f, 1);
+
 	public float sensitivityx = 0.1f / 10000.0f; // 1/100000
 	public float sensitivityy = 0.1f / 10000.0f; // 1/100000
-
-
-	public CharacterBody3d()
-	{
-	}
 
 
 	public override void _Ready()
@@ -37,7 +38,6 @@ public partial class CharacterBody3d : CharacterBody3D
 		headRotation.X = Mathf.Clamp(headRotation.X, -90, 90);
 		Head.RotationDegrees = headRotation;
 	}
-
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector3 velocity = Velocity;
@@ -52,6 +52,32 @@ public partial class CharacterBody3d : CharacterBody3D
 		if (Input.IsActionJustPressed("movement_jump") && IsOnFloor())
 		{
 			velocity.Y = JumpVelocity;
+		}
+
+		// Handle Sprint.
+		if (Input.IsActionPressed("movement_sprint"))
+		{
+			// interpolate speed to make it smooth. using exponential interpolation to make it smooth.
+			Speed = Mathf.Lerp(Speed, 10.0f, 0.1f);
+		}
+		else
+		{
+			Speed = Mathf.Lerp(Speed, 5.0f, 0.1f);
+		}
+
+		// Handle Crouch.
+		if (Input.IsActionPressed("movement_crouch") && IsOnFloor())
+		{
+			// Interpolate scale to make it smooth.
+			characterBody3d.Scale = constSize * new Vector3(1, 0.75f, 1);
+			Speed = Mathf.Lerp(Speed, 2.5f, 0.1f);
+		}
+		else
+		{
+			// Interpolate scale to make it smooth.
+			characterBody3d.Scale = constSize;
+			// Interpolate speed to make it smooth
+			Speed = Mathf.Lerp(Speed, 5.0f, 0.1f);
 		}
 
 		// Get the input direction and handle the movement/deceleration.
@@ -70,8 +96,8 @@ public partial class CharacterBody3d : CharacterBody3D
 		}
 
 		Velocity = velocity;
+
+		// Move and slides rather than collides with the world, to get sliding along walls, etc.
 		MoveAndSlide();
 	}
 }
-
-//! My mom is cleaning up the room, so i cant lmaoo
