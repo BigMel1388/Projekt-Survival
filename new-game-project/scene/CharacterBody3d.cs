@@ -4,6 +4,7 @@ using System.ComponentModel;
 
 public partial class CharacterBody3d : CharacterBody3D
 {
+	[Export]
 	public float Speed = 5.0f;
 	public const float JumpVelocity = 4.5f;
 
@@ -12,6 +13,8 @@ public partial class CharacterBody3d : CharacterBody3D
 
 	[Export]
 	public Camera3D Camera;
+
+	[Export]
 
 	public CharacterBody3d characterBody3d;
 
@@ -65,20 +68,18 @@ public partial class CharacterBody3d : CharacterBody3D
 			Speed = Mathf.Lerp(Speed, 5.0f, 0.1f);
 		}
 
-		// Handle Crouch.
-		if (Input.IsActionPressed("movement_crouch") && IsOnFloor())
+		if (Input.IsActionPressed("movement_crouch"))
 		{
-			// Interpolate scale to make it smooth.
-			characterBody3d.Scale = constSize * new Vector3(1, 0.75f, 1);
-			Speed = Mathf.Lerp(Speed, 2.5f, 0.1f);
+			characterBody3d.Scale = constSize * new Vector3(1, 0.5f, 1);
+			Speed = 2.5f;
 		}
 		else
 		{
-			// Interpolate scale to make it smooth.
 			characterBody3d.Scale = constSize;
-			// Interpolate speed to make it smooth
-			Speed = Mathf.Lerp(Speed, 5.0f, 0.1f);
+			Speed = 5.0f;
 		}
+
+
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
