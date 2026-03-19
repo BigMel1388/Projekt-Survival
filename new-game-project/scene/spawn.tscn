@@ -1,23 +1,42 @@
 [gd_scene format=3 uid="uid://et7aqtlbafnd"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_w146n"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w146n"]
-albedo_color = Color(1, 0.2901961, 1, 1)
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_17rk7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_17rk7"]
-albedo_color = Color(0, 1, 0, 1)
+metallic = 1.0
+emission_enabled = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_17rk7"]
+lightmap_size_hint = Vector2i(17, 14)
+add_uv2 = true
+
+[sub_resource type="Skin" id="Skin_w146n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k15yk"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w146n"]
 
 [node name="Node3D" type="Node3D" unique_id=236187744]
-
-[node name="Player" type="MeshInstance3D" parent="." unique_id=1027289603]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_w146n")
-surface_material_override/0 = SubResource("StandardMaterial3D_w146n")
 
 [node name="terrain" type="MeshInstance3D" parent="." unique_id=2061418189]
 transform = Transform3D(15.103908, 0, 0, 0, 15.103908, 0, 0, 0, 15.103908, 1.4083521, 0.07369757, -1.0748911)
 mesh = SubResource("PlaneMesh_17rk7")
 surface_material_override/0 = SubResource("StandardMaterial3D_17rk7")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1612997281]
+transform = Transform3D(0.2322411, 0, 0, 0, 8.327072, 0, 0, 0, 13.279167, 7.425446, 4.210862, 0)
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1816106684]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1911883, -2.0777643)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1067550884]
+mesh = SubResource("CapsuleMesh_17rk7")
+skin = SubResource("Skin_w146n")
+surface_material_override/0 = SubResource("StandardMaterial3D_k15yk")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1738947018]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0069946945, 1.6386324, -0.22783327)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1690711260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19118834, 2.0777643)
+shape = SubResource("CapsuleShape3D_w146n")
