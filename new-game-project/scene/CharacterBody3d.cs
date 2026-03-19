@@ -20,8 +20,14 @@ public partial class CharacterBody3d : CharacterBody3D
 
 	public Vector3 constSize = new Vector3(1, 1.4f, 1);
 
-	public float sensitivityx = 0.1f / 10000.0f; // 1/100000
-	public float sensitivityy = 0.1f / 10000.0f; // 1/100000
+  [Export]
+  public float sensitivityx = 0.1;
+
+  [Export]
+  public float sensitivityy = 0.1;
+
+	public float game_sensitivityx = sensitivityx / 10000.0f; // 1/100000
+	public float game_sensitivityy = sensitivityy / 10000.0f; // 1/100000
 
 
 	public override void _Ready()
