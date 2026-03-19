@@ -2,14 +2,22 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w146n"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w146n"]
+albedo_color = Color(1, 0.2901961, 1, 1)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_17rk7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_17rk7"]
+albedo_color = Color(0, 1, 0, 1)
 
 [node name="Node3D" type="Node3D" unique_id=236187744]
 
 [node name="Player" type="MeshInstance3D" parent="." unique_id=1027289603]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_w146n")
+surface_material_override/0 = SubResource("StandardMaterial3D_w146n")
 
 [node name="terrain" type="MeshInstance3D" parent="." unique_id=2061418189]
-transform = Transform3D(15.103908, 0, 0, 0, 15.103908, 0, 0, 0, 15.103908, 0, 0, 0)
+transform = Transform3D(15.103908, 0, 0, 0, 15.103908, 0, 0, 0, 15.103908, 1.4083521, 0.07369757, -1.0748911)
 mesh = SubResource("PlaneMesh_17rk7")
+surface_material_override/0 = SubResource("StandardMaterial3D_17rk7")
